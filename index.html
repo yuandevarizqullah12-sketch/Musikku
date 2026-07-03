@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Musikku — Music Player</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>" />
+</head>
+<body>
+    <header class="header" role="banner">
+        <div class="container header__inner">
+            <div class="header__brand">
+                <span class="header__logo">🎵</span>
+                <span class="header__title">Musikku</span>
+            </div>
+            <div class="header__search">
+                <input type="text" id="searchInput" class="search__input" placeholder="Cari lagu atau artis…" autocomplete="off" aria-label="Cari lagu" />
+                <span class="search__icon" aria-hidden="true">🔍</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main" id="mainContent">
+        <div class="container">
+            <section class="results" id="resultsContainer" aria-label="Hasil pencarian"></section>
+            <div class="empty-state" id="emptyState">
+                <div class="empty-state__icon">🎶</div>
+                <h2 class="empty-state__title">Cari lagu favoritmu</h2>
+                <p class="empty-state__desc">Mulai ketik di kolom pencarian untuk menemukan musik.</p>
+            </div>
+            <div class="offline-state" id="offlineState" style="display:none;">
+                <div class="offline-state__icon">📡</div>
+                <h2 class="offline-state__title">Koneksi Terputus</h2>
+                <p class="offline-state__desc">Periksa koneksi internetmu dan coba lagi.</p>
+                <button class="offline-state__btn" id="offlineRetryBtn">Coba Lagi</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="player" id="player" role="contentinfo" aria-label="Pemutar musik">
+        <div class="player__inner container">
+            <div class="player__info">
+                <div class="player__thumb-wrapper">
+                    <img id="playerThumb" class="player__thumb" src="" alt="Thumbnail lagu" loading="lazy" />
+                </div>
+                <div class="player__meta">
+                    <div class="player__title" id="playerTitle">—</div>
+                    <div class="player__artist" id="playerArtist">—</div>
+                </div>
+            </div>
+            <div class="player__controls">
+                <div class="player__controls-row">
+                    <button class="player__btn" id="repeatBtn" aria-label="Ulangi" title="Ulangi">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="17 1 21 5 17 9" />
+                            <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+                            <polyline points="7 23 3 19 7 15" />
+                            <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+                        </svg>
+                        <span class="player__btn-badge" id="repeatBadge"></span>
+                    </button>
+                    <button class="player__btn" id="prevBtn" aria-label="Lagu sebelumnya" title="Sebelumnya">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                            <polygon points="19 20 9 12 19 4 19 20" />
+                            <rect x="5" y="4" width="2" height="16" />
+                        </svg>
+                    </button>
+                    <button class="player__btn player__btn--play" id="playBtn" aria-label="Putar" title="Putar">
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" id="playIcon">
+                            <polygon points="5 3 19 12 5 21 5 3" />
+                        </svg>
+                    </button>
+                    <button class="player__btn" id="nextBtn" aria-label="Lagu berikutnya" title="Berikutnya">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                            <polygon points="5 4 15 12 5 20 5 4" />
+                            <rect x="17" y="4" width="2" height="16" />
+                        </svg>
+                    </button>
+                    <button class="player__btn" id="volumeBtn" aria-label="Volume" title="Volume">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="volumeIcon">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="player__progress-row">
+                    <span class="player__time" id="currentTime">0:00</span>
+                    <div class="player__progress" id="progressContainer" role="slider" aria-label="Progress lagu" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+                        <div class="player__progress-track">
+                            <div class="player__progress-fill" id="progressFill" style="width:0%;"></div>
+                            <div class="player__progress-handle" id="progressHandle" style="left:0%;"></div>
+                        </div>
+                    </div>
+                    <span class="player__time" id="durationTime">0:00</span>
+                </div>
+            </div>
+            <div class="player__volume-wrap">
+                <input type="range" id="volumeSlider" class="player__volume-slider" min="0" max="100" value="80" aria-label="Volume" />
+            </div>
+        </div>
+        <div id="youtubePlayerContainer" style="display:none;"></div>
+    </footer>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

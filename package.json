@@ -1,0 +1,19 @@
+{
+  "name": "music-player",
+  "version": "1.0.0",
+  "description": "Modern YouTube-based music player with caching and search",
+  "main": "api/search.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "vercel build",
+    "start": "vercel start"
+  },
+  "dependencies": {
+    "@google-cloud/firestore": "^6.8.0"
+  },
+  "devDependencies": {
+    "vercel": "^33.0.0"
+  },
+  "author": "",
+  "license": "MIT"
+}
