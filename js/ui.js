@@ -1,4 +1,3 @@
-// ===== UI Rendering Module =====
 export const ui = {
     showSkeletons(count = 6) {
         const container = document.getElementById('resultsContainer');
@@ -80,7 +79,6 @@ export const ui = {
     },
 
     highlightResult(videoId) {
-        // Remove previous highlight
         document.querySelectorAll('.result-card').forEach(c => c.classList.remove('result-card--active'));
         if (videoId) {
             const card = document.querySelector(`.result-card[data-video-id="${videoId}"]`);
@@ -89,7 +87,6 @@ export const ui = {
     }
 };
 
-// Helper to escape HTML
 function escapeHtml(unsafe) {
     if (!unsafe) return '';
     return unsafe

@@ -1,24 +1,17 @@
 // ===== Main Entry Point =====
-import './player.js';
-import './search.js';
-import './mediaSession.js';
+import { init as initPlayer } from './player.js';
+import { init as initSearch } from './search.js';
+import { init as initMediaSession } from './mediaSession.js';
 import { ui } from './ui.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize UI state
+    // Inisialisasi UI
     ui.showEmptyState();
 
-    // Restore volume from localStorage
-    try {
-        const savedVolume = localStorage.getItem('playerVolume');
-        if (savedVolume !== null) {
-            const vol = parseInt(savedVolume, 10);
-            const slider = document.getElementById('volumeSlider');
-            if (slider) slider.value = vol;
-        }
-    } catch (_) {
-        // Ignore if localStorage not available
-    }
+    // Inisialisasi modul (urutan penting: player dulu, lalu search, lalu mediaSession)
+    initPlayer();
+    initSearch();
+    initMediaSession();
 
     console.log('🎵 Musikku app initialized');
 });

@@ -1,60 +1,42 @@
 // ===== Media Session API Module =====
-// This integrates with the player module via window.player
+let initialized = false;
 
-if ('mediaSession' in navigator) {
-    // Set action handlers
+export function init() {
+    if (initialized) return;
+    if (!('mediaSession' in navigator)) {
+        console.log('ℹ️ Media Session API not supported');
+        return;
+    }
     try {
         navigator.mediaSession.setActionHandler('play', () => {
             const player = window.player;
-            if (player && player.togglePlay) {
-                player.togglePlay();
-            } else {
-                console.warn('MediaSession: play handler - player not ready');
-            }
+            if (player && player.togglePlay) player.togglePlay();
         });
-
         navigator.mediaSession.setActionHandler('pause', () => {
             const player = window.player;
-            if (player && player.togglePlay) {
-                player.togglePlay();
-            }
+            if (player && player.togglePlay) player.togglePlay();
         });
-
         navigator.mediaSession.setActionHandler('previoustrack', () => {
             const player = window.player;
-            if (player && player.playPrev) {
-                player.playPrev();
-            }
+            if (player && player.playPrev) player.playPrev();
         });
-
         navigator.mediaSession.setActionHandler('nexttrack', () => {
             const player = window.player;
-            if (player && player.playNext) {
-                player.playNext();
-            }
+            if (player && player.playNext) player.playNext();
         });
-
-        // Stop handler (optional)
         navigator.mediaSession.setActionHandler('stop', () => {
             const player = window.player;
-            if (player && player.togglePlay) {
-                // Pause if playing (simplified: just toggle)
-                player.togglePlay();
-            }
+            if (player && player.togglePlay) player.togglePlay();
         });
-
+        initialized = true;
         console.log('✅ Media Session API initialized');
     } catch (error) {
         console.warn('⚠️ Media Session API setup error:', error);
     }
-} else {
-    console.log('ℹ️ Media Session API not supported');
 }
 
-// ----- Exported functions for player to update metadata and playback state -----
 export function updateMediaMetadata(song) {
-    if (!('mediaSession' in navigator)) return;
-    if (!song) return;
+    if (!('mediaSession' in navigator) || !song) return;
     try {
         navigator.mediaSession.metadata = new MediaMetadata({
             title: song.title || 'Unknown',
@@ -77,7 +59,7 @@ export function updateMediaMetadata(song) {
 export function updatePlaybackState(state) {
     if (!('mediaSession' in navigator)) return;
     try {
-        navigator.mediaSession.playbackState = state; // 'playing', 'paused', 'none'
+        navigator.mediaSession.playbackState = state;
     } catch (e) {
         console.warn('Failed to update playback state:', e);
     }

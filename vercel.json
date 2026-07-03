@@ -6,6 +6,6 @@
     }
   },
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    { "source": "/((?!api/|js/|css/|assets/|favicon.ico).*)", "destination": "/" }
   ]
 }
