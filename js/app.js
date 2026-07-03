@@ -8,12 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize UI state
     ui.showEmptyState();
 
-    // Optional: restore volume from localStorage
-    const savedVolume = localStorage.getItem('playerVolume');
-    if (savedVolume !== null) {
-        const vol = parseInt(savedVolume, 10);
-        const slider = document.getElementById('volumeSlider');
-        if (slider) slider.value = vol;
+    // Restore volume from localStorage
+    try {
+        const savedVolume = localStorage.getItem('playerVolume');
+        if (savedVolume !== null) {
+            const vol = parseInt(savedVolume, 10);
+            const slider = document.getElementById('volumeSlider');
+            if (slider) slider.value = vol;
+        }
+    } catch (_) {
+        // Ignore if localStorage not available
     }
 
     console.log('🎵 Musikku app initialized');

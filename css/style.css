@@ -145,6 +145,12 @@ body {
     box-shadow: 0 8px 24px rgba(59,130,246,0.15);
 }
 
+/* Highlight card yang sedang diputar */
+.result-card--active {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 2px #3b82f6, 0 8px 24px rgba(59,130,246,0.25);
+}
+
 .result-card__thumbnail {
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -566,5 +572,13 @@ body {
     }
     .player__artist {
         font-size: 0.65rem;
+    }
+    .player__btn {
+        width: 32px;
+        height: 32px;
+    }
+    .player__btn--play {
+        width: 38px;
+        height: 38px;
     }
 }

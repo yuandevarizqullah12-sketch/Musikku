@@ -81,10 +81,10 @@ export const ui = {
 
     highlightResult(videoId) {
         // Remove previous highlight
-        document.querySelectorAll('.result-card').forEach(c => c.style.borderColor = '');
+        document.querySelectorAll('.result-card').forEach(c => c.classList.remove('result-card--active'));
         if (videoId) {
             const card = document.querySelector(`.result-card[data-video-id="${videoId}"]`);
-            if (card) card.style.borderColor = '#3b82f6';
+            if (card) card.classList.add('result-card--active');
         }
     }
 };

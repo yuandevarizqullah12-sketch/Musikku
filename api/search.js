@@ -1,5 +1,5 @@
 // ===== Vercel Serverless Function: /api/search =====
-import { Firestore } from '@google-cloud/firestore';
+import { Firestore, Timestamp, FieldValue } from '@google-cloud/firestore';
 
 // Initialize Firestore
 let firestore;
@@ -12,7 +12,6 @@ if (process.env.FIREBASE_PROJECT_ID) {
         },
     });
 } else {
-    // For local dev without env, use a mock or throw
     console.warn('Firestore not configured. Using mock.');
 }
 
@@ -66,7 +65,6 @@ async function getFromFirestore(query) {
         const doc = await docRef.get();
         if (doc.exists) {
             const data = doc.data();
-            // Check if cachedAt is recent (e.g., 1 hour)
             const cachedAt = data.cachedAt?.toMillis?.() || 0;
             if (Date.now() - cachedAt < 3600000) {
                 return data.results || null;
@@ -85,14 +83,14 @@ async function storeInFirestore(query, results) {
         const docRef = firestore.collection('songs').doc(query.toLowerCase());
         await docRef.set({
             results,
-            cachedAt: Firestore.Timestamp.now(),
+            cachedAt: Timestamp.now(),
         });
-        // Also update searches collection
+        // Update searches collection
         const searchRef = firestore.collection('searches').doc(query.toLowerCase());
         await searchRef.set({
             query,
-            count: Firestore.FieldValue.increment(1),
-            lastSearched: Firestore.Timestamp.now(),
+            count: FieldValue.increment(1),
+            lastSearched: Timestamp.now(),
         }, { merge: true });
     } catch (e) {
         console.error('Firestore write error:', e);

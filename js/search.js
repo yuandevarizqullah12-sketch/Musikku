@@ -27,7 +27,6 @@ async function performSearch(query) {
         return;
     }
 
-    // Show skeletons
     ui.showSkeletons(6);
 
     try {
@@ -40,7 +39,6 @@ async function performSearch(query) {
         }
     } catch (error) {
         console.error('Search error:', error);
-        // Check if offline
         if (!navigator.onLine) {
             ui.showOfflineState();
         } else {
@@ -82,11 +80,14 @@ document.addEventListener('click', (e) => {
 });
 
 // ----- Retry offline -----
-document.getElementById('offlineRetryBtn').addEventListener('click', () => {
-    const query = searchInput.value.trim();
-    if (query) performSearch(query);
-    else ui.showEmptyState();
-});
+const retryBtn = document.getElementById('offlineRetryBtn');
+if (retryBtn) {
+    retryBtn.addEventListener('click', () => {
+        const query = searchInput.value.trim();
+        if (query) performSearch(query);
+        else ui.showEmptyState();
+    });
+}
 
-// ----- Export for offline state -----
+// ----- Export for potential use -----
 export { performSearch };

@@ -15,19 +15,18 @@ export const cache = {
             }
         }
         // Check localStorage
-        const stored = localStorage.getItem(CACHE_PREFIX + key);
-        if (stored) {
-            try {
+        try {
+            const stored = localStorage.getItem(CACHE_PREFIX + key);
+            if (stored) {
                 const entry = JSON.parse(stored);
                 if (Date.now() - entry.timestamp < MAX_AGE) {
-                    // Store back to memory
                     memoryCache.set(key, entry);
                     return entry.data;
                 } else {
                     localStorage.removeItem(CACHE_PREFIX + key);
                 }
-            } catch (e) {}
-        }
+            }
+        } catch (_) {}
         return null;
     },
 
@@ -39,17 +38,18 @@ export const cache = {
         memoryCache.set(key, entry);
         try {
             localStorage.setItem(CACHE_PREFIX + key, JSON.stringify(entry));
-        } catch (e) {}
+        } catch (_) {}
     },
 
     clear() {
         memoryCache.clear();
-        // Clear all localStorage items with prefix
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith(CACHE_PREFIX)) {
-                localStorage.removeItem(key);
+        try {
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith(CACHE_PREFIX)) {
+                    localStorage.removeItem(key);
+                }
             }
-        }
+        } catch (_) {}
     }
 };
